@@ -1,0 +1,8 @@
+# Build results and artifacts
+result-*
+agent-deck/
+
+# Flox build cache
+.flox/cache/
+.flox/run/
+.flox/env/manifest.lock
