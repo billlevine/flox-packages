@@ -2,9 +2,659 @@
   "lockfile-version": 1,
   "manifest": {
     "version": 1,
+    "install": {
+      "go": {
+        "pkg-path": "go"
+      },
+      "iana-etc": {
+        "pkg-path": "iana-etc"
+      },
+      "mailcap": {
+        "pkg-path": "mailcap"
+      },
+      "tmux": {
+        "pkg-path": "tmux"
+      },
+      "tzdata": {
+        "pkg-path": "tzdata"
+      }
+    },
     "hook": {},
     "profile": {},
-    "options": {}
+    "options": {},
+    "build": {
+      "agent-deck": {
+        "command": "  # Use cache directory for cloning (with fallback to /tmp)\n  CACHE_DIR=\"${FLOX_ENV_CACHE:-/tmp}/agent-deck-build\"\n\n  # Clone the repository if not already present\n  if [ ! -d \"$CACHE_DIR\" ]; then\n    git clone https://github.com/asheshgoplani/agent-deck.git \"$CACHE_DIR\"\n  fi\n\n  cd \"$CACHE_DIR\"\n\n  # Fetch latest changes\n  git fetch --tags\n  git pull origin main || true\n\n  # Build the binary as a fully static executable\n  CGO_ENABLED=0 go build -ldflags=\"-s -w\" -o agent-deck ./cmd/agent-deck\n\n  # Install to output directory\n  mkdir -p $out/bin\n  cp agent-deck $out/bin/\n",
+        "runtime-packages": [
+          "go",
+          "tmux",
+          "mailcap",
+          "iana-etc",
+          "tzdata"
+        ],
+        "version": {
+          "command": "git describe --tags --always 2>/dev/null || echo 0.1.0"
+        },
+        "description": "Terminal UI for managing multiple AI agent sessions"
+      }
+    }
   },
-  "packages": []
+  "packages": [
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/h19kjqi10ynjk0i6scllhv82gx45p58w-go-1.25.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "go-1.25.5",
+      "pname": "go",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T04:38:29.444520Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.25.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/wh88zz6r1ihcp2mm7ys1f2anp8aga6n2-go-1.25.5"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/32f3plvjz6apyxgi010l0c0ngqydzbyj-go-1.25.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "go-1.25.5",
+      "pname": "go",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:10:37.605284Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.25.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/k3knzdi0v21bf2m7vcxpdy1jnqg1h0zk-go-1.25.5"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/5m70w19x64mr74nzlmlmv2mia2k6mykd-go-1.25.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "go-1.25.5",
+      "pname": "go",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:44:14.649775Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.25.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/bwdahzajhqd5x14dbvkqww5f1wpsxif3-go-1.25.5"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/3xvlqyw28f7hk7qmk3f18pzi6c7ymzy8-go-1.25.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "go-1.25.5",
+      "pname": "go",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T06:20:18.606309Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.25.5",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/zzvsjgylnphvhms3lgr2qlwdxmc68z66-go-1.25.5"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "iana-etc",
+      "broken": false,
+      "derivation": "/nix/store/magx93j7h162viznlz0ny8shsdfkhpq7-iana-etc-20250505.drv",
+      "description": "IANA protocol and port number assignments (/etc/protocols and /etc/services)",
+      "install_id": "iana-etc",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "iana-etc-20250505",
+      "pname": "iana-etc",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T04:38:43.462138Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20250505",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/mpzb3jxqjwfkfkf25157z5sb8qja87gr-iana-etc-20250505"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "iana-etc",
+      "broken": false,
+      "derivation": "/nix/store/98i9f0wa58m1dar6zmjihbjcbfkb4qsz-iana-etc-20250505.drv",
+      "description": "IANA protocol and port number assignments (/etc/protocols and /etc/services)",
+      "install_id": "iana-etc",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "iana-etc-20250505",
+      "pname": "iana-etc",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:10:55.112832Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20250505",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/4i606az1wydsyh1p0l8g7rywrwijn2xl-iana-etc-20250505"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "iana-etc",
+      "broken": false,
+      "derivation": "/nix/store/j87qgnkm6ps5bh8l2lqid12rxsm6s0dc-iana-etc-20250505.drv",
+      "description": "IANA protocol and port number assignments (/etc/protocols and /etc/services)",
+      "install_id": "iana-etc",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "iana-etc-20250505",
+      "pname": "iana-etc",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:44:28.904664Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20250505",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/4iymmrx3akk3599c9m0c4vp6zyi4z877-iana-etc-20250505"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "iana-etc",
+      "broken": false,
+      "derivation": "/nix/store/3rrrllyx7zzqnq62978al5br9jqzzgvr-iana-etc-20250505.drv",
+      "description": "IANA protocol and port number assignments (/etc/protocols and /etc/services)",
+      "install_id": "iana-etc",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "iana-etc-20250505",
+      "pname": "iana-etc",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T06:20:36.455641Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20250505",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/dm16iwd2p8abxly30iy0idkvzpp0w5zy-iana-etc-20250505"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "mailcap",
+      "broken": false,
+      "derivation": "/nix/store/zd5cdn4ivfnchscdyligxpnj38zh3r1c-mailcap-2.1.54.drv",
+      "description": "Helper application and MIME type associations for file types",
+      "install_id": "mailcap",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "mailcap-2.1.54",
+      "pname": "mailcap",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T04:38:49.031609Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.1.54",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/kna0jrf6b7grniyp7wb1v7ivyilyblcb-mailcap-2.1.54"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "mailcap",
+      "broken": false,
+      "derivation": "/nix/store/cw0pfvajir96j92arwnp8h7bw1407amy-mailcap-2.1.54.drv",
+      "description": "Helper application and MIME type associations for file types",
+      "install_id": "mailcap",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "mailcap-2.1.54",
+      "pname": "mailcap",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:11:08.103716Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.1.54",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/8j96514psz5pf0ag0v8y9jdmb4hqh1yj-mailcap-2.1.54"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "mailcap",
+      "broken": false,
+      "derivation": "/nix/store/z0d0lqygnjari7550fgrk0x5prx5ypj7-mailcap-2.1.54.drv",
+      "description": "Helper application and MIME type associations for file types",
+      "install_id": "mailcap",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "mailcap-2.1.54",
+      "pname": "mailcap",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:44:34.479688Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.1.54",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/1cv33yxk4i7jpxdrn90hzbl9bbya3x5b-mailcap-2.1.54"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "mailcap",
+      "broken": false,
+      "derivation": "/nix/store/7h2p6626zkay13a6arlmdpsirggki8x7-mailcap-2.1.54.drv",
+      "description": "Helper application and MIME type associations for file types",
+      "install_id": "mailcap",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "mailcap-2.1.54",
+      "pname": "mailcap",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T06:20:50.440277Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.1.54",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/3n5kqpahwmk8va5mkygqjj0mn9hqd72n-mailcap-2.1.54"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tmux",
+      "broken": false,
+      "derivation": "/nix/store/1zdjz2pcfhgfr4bqalkzai825m4xkddl-tmux-3.6a.drv",
+      "description": "Terminal multiplexer",
+      "install_id": "tmux",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tmux-3.6a",
+      "pname": "tmux",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T04:40:39.622762Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.6a",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "man": "/nix/store/n1pb83gg9p32kv9p6m1vmarrqc9prmy1-tmux-3.6a-man",
+        "out": "/nix/store/41wc559ka4dwp9a82j66iswdnjig5hqs-tmux-3.6a"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tmux",
+      "broken": false,
+      "derivation": "/nix/store/1srg8w4102cmigcgs2asqicifmfrn56h-tmux-3.6a.drv",
+      "description": "Terminal multiplexer",
+      "install_id": "tmux",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tmux-3.6a",
+      "pname": "tmux",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:13:32.019325Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.6a",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "man": "/nix/store/bvwjcgpf37s2zljng3klazs14kfxsl3p-tmux-3.6a-man",
+        "out": "/nix/store/7fh8lxdrpx61j0h76b1ypnir1x9j7ffi-tmux-3.6a"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tmux",
+      "broken": false,
+      "derivation": "/nix/store/527h86js4m62cqn1ki9yz40kb348f3vp-tmux-3.6a.drv",
+      "description": "Terminal multiplexer",
+      "install_id": "tmux",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tmux-3.6a",
+      "pname": "tmux",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:46:18.762689Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.6a",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "man": "/nix/store/3129i7iqn7fh85i2xb1as6dxpns7ixgk-tmux-3.6a-man",
+        "out": "/nix/store/1zrdxcc343max5jq2qcpry9q7al41410-tmux-3.6a"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tmux",
+      "broken": false,
+      "derivation": "/nix/store/yr9zkv4r3qrgkjz2qi43fkzqda762ihs-tmux-3.6a.drv",
+      "description": "Terminal multiplexer",
+      "install_id": "tmux",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tmux-3.6a",
+      "pname": "tmux",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T06:23:11.050792Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.6a",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "man": "/nix/store/mi4lvkvcrw9ffjyqly6abh79hnl0r3h9-tmux-3.6a-man",
+        "out": "/nix/store/0qk9jc89bl5dj5vhbkgnmga7vwarpfai-tmux-3.6a"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tzdata",
+      "broken": false,
+      "derivation": "/nix/store/1csywb1h4f2ib47q8xanmqnz33b447g4-tzdata-2025c.drv",
+      "description": "Database of current and historical time zones",
+      "install_id": "tzdata",
+      "license": "[ BSD-3-Clause, Public Domain ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tzdata-2025c",
+      "pname": "tzdata",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T04:40:55.988137Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2025c",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/8f1ggxr97lh8h38rx97jb6lps3lylxyl-tzdata-2025c-bin",
+        "dev": "/nix/store/icbnqqidjx1i2fx2x7kagikc4jfdbi8z-tzdata-2025c-dev",
+        "man": "/nix/store/3wrngr9bx68jmm19bfmwsj9379anamcq-tzdata-2025c-man",
+        "out": "/nix/store/3ns7f9irmmwhfhx1dd7a6288xpajsq2b-tzdata-2025c"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tzdata",
+      "broken": false,
+      "derivation": "/nix/store/8pl6k62cr58ha3jpc1f69c5hspyyj3zc-tzdata-2025c.drv",
+      "description": "Database of current and historical time zones",
+      "install_id": "tzdata",
+      "license": "[ BSD-3-Clause, Public Domain ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tzdata-2025c",
+      "pname": "tzdata",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:13:51.684418Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2025c",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/cr6bhxya32bma0cdgkyi7jfsifwscsnw-tzdata-2025c-bin",
+        "dev": "/nix/store/z8p6ic5c3my1kadq4sk7r4vv5v582xhg-tzdata-2025c-dev",
+        "man": "/nix/store/861w39cnlnvdf4i25glf9jkh8hk2xp1k-tzdata-2025c-man",
+        "out": "/nix/store/80izpiglrlqv2zb7rd7m5274k2dr142l-tzdata-2025c"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tzdata",
+      "broken": false,
+      "derivation": "/nix/store/x6fnxx9xk41rvrll4sjyy73awp7dqxcb-tzdata-2025c.drv",
+      "description": "Database of current and historical time zones",
+      "install_id": "tzdata",
+      "license": "[ BSD-3-Clause, Public Domain ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tzdata-2025c",
+      "pname": "tzdata",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T05:46:34.777970Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2025c",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/c1j8hrhm5davn0v02axjycrr883zald8-tzdata-2025c-bin",
+        "dev": "/nix/store/dz8vdmginxsihwfqf9d7qrnr1s71cwli-tzdata-2025c-dev",
+        "man": "/nix/store/bdksjsxck11m6svdqyzbg0grh9jriqqf-tzdata-2025c-man",
+        "out": "/nix/store/8gd9qbk5qk3kqq8i0bmihxpbhrklr382-tzdata-2025c"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "tzdata",
+      "broken": false,
+      "derivation": "/nix/store/cyz836rngkpbl8dgk6jhyagld71fwwf9-tzdata-2025c.drv",
+      "description": "Database of current and historical time zones",
+      "install_id": "tzdata",
+      "license": "[ BSD-3-Clause, Public Domain ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d6c71932130818840fc8fe9509cf50be8c64634f",
+      "name": "tzdata-2025c",
+      "pname": "tzdata",
+      "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+      "rev_count": 942779,
+      "rev_date": "2026-02-08T14:52:16Z",
+      "scrape_date": "2026-02-09T06:23:29.972019Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2025c",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/v4k642k8hr4k5h6cw2mj8knvfbj5csc8-tzdata-2025c-bin",
+        "dev": "/nix/store/s6c66syr5ndjncr46y5k0nhbrnj00lb1-tzdata-2025c-dev",
+        "man": "/nix/store/f3skkkfc3pypdvbb1jgivsypb37b69w7-tzdata-2025c-man",
+        "out": "/nix/store/r29gp232igs3m47s7lfcaalfashd82bf-tzdata-2025c"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
 }
