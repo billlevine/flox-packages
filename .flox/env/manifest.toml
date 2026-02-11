@@ -89,12 +89,15 @@ description = "Terminal UI for managing multiple AI agent sessions"
 version.command = "git describe --tags --always 2>/dev/null || echo 0.1.0"
 runtime-packages = ["go", "tmux", "mailcap", "iana-etc", "tzdata"]
 command = """
+  # Use cache directory for cloning (with fallback to /tmp)
+  CACHE_DIR="${FLOX_ENV_CACHE:-/tmp}/agent-deck-build"
+
   # Clone the repository if not already present
-  if [ ! -d "agent-deck" ]; then
-    git clone https://github.com/asheshgoplani/agent-deck.git
+  if [ ! -d "$CACHE_DIR" ]; then
+    git clone https://github.com/asheshgoplani/agent-deck.git "$CACHE_DIR"
   fi
 
-  cd agent-deck
+  cd "$CACHE_DIR"
 
   # Fetch latest changes
   git fetch --tags
