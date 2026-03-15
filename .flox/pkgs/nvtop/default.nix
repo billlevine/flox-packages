@@ -1,0 +1,1 @@
+{ nvtopPackages }: nvtopPackages.nvidia

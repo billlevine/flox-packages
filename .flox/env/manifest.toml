@@ -1,12 +1,4 @@
-## Flox Environment Manifest -----------------------------------------
-##
-##   _Everything_ you need to know about the _manifest_ is here:
-##
-##   https://flox.dev/docs/reference/command-reference/manifest.toml/
-##
-## -------------------------------------------------------------------
-# Flox manifest version managed by Flox CLI
-version = 1
+schema-version = "1.10.0"
 
 
 ## Install Packages --------------------------------------------------
@@ -20,6 +12,9 @@ tmux.pkg-path = "tmux"
 mailcap.pkg-path = "mailcap"
 iana-etc.pkg-path = "iana-etc"
 tzdata.pkg-path = "tzdata"
+tzdata.outputs = "all"
+nvtop-nvidia.pkg-path = "nvtopPackages.nvidia"
+nvtop-nvidia.systems = ["x86_64-linux"]
 
 
 ## Environment Variables ---------------------------------------------
