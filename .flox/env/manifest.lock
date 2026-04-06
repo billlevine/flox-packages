@@ -12,12 +12,6 @@
       "mailcap": {
         "pkg-path": "mailcap"
       },
-      "nvtop-nvidia": {
-        "pkg-path": "nvtopPackages.nvidia",
-        "systems": [
-          "x86_64-linux"
-        ]
-      },
       "tmux": {
         "pkg-path": "tmux"
       },
@@ -402,36 +396,6 @@
       ],
       "outputs": {
         "out": "/nix/store/ci6lysmni722fq1gjhhddyy4pynfqwc1-mailcap-2.1.54"
-      },
-      "system": "x86_64-linux",
-      "group": "toplevel",
-      "priority": 5
-    },
-    {
-      "attr_path": "nvtopPackages.nvidia",
-      "broken": false,
-      "derivation": "/nix/store/8f75mm0niapd0y0hm3nh32izhhs0hygc-nvtop-3.1.0.drv",
-      "description": "(h)top like task monitor for AMD, Adreno, Intel and NVIDIA GPUs",
-      "install_id": "nvtop-nvidia",
-      "license": "GPL-3.0-only",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=2c8d3f48d33929642c1c12cd243df4cc7d2ce434",
-      "name": "nvtop-3.1.0",
-      "pname": "nvidia",
-      "rev": "2c8d3f48d33929642c1c12cd243df4cc7d2ce434",
-      "rev_count": 778048,
-      "rev_date": "2025-04-02T08:40:04Z",
-      "scrape_date": "2025-04-03T02:04:36.384102Z",
-      "stabilities": [
-        "unstable",
-        "staging"
-      ],
-      "unfree": false,
-      "version": "3.1.0",
-      "outputs_to_install": [
-        "out"
-      ],
-      "outputs": {
-        "out": "/nix/store/5lyfikaximji9saygdakpwsdlwrfvjr3-nvtop-3.1.0"
       },
       "system": "x86_64-linux",
       "group": "toplevel",

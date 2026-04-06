@@ -13,8 +13,6 @@ mailcap.pkg-path = "mailcap"
 iana-etc.pkg-path = "iana-etc"
 tzdata.pkg-path = "tzdata"
 tzdata.outputs = "all"
-nvtop-nvidia.pkg-path = "nvtopPackages.nvidia"
-nvtop-nvidia.systems = ["x86_64-linux"]
 
 
 ## Environment Variables ---------------------------------------------
