@@ -95,7 +95,7 @@ command = """
   cd "$CACHE_DIR"
 
   # Fetch latest changes
-  git fetch --tags
+  git fetch --tags --force
   git pull origin main || true
   git checkout v0.28.3
 
