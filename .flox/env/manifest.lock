@@ -25,7 +25,7 @@
     "options": {},
     "build": {
       "agent-deck": {
-        "command": "  # Use cache directory for cloning (with fallback to /tmp)\n  CACHE_DIR=\"${FLOX_ENV_CACHE:-/tmp}/agent-deck-build\"\n\n  # Clone the repository if not already present\n  if [ ! -d \"$CACHE_DIR\" ]; then\n    git clone https://github.com/asheshgoplani/agent-deck.git \"$CACHE_DIR\"\n  fi\n\n  cd \"$CACHE_DIR\"\n\n  # Fetch latest changes\n  git fetch --tags --force\n  git pull origin main || true\n  # git checkout v0.28.3\n\n  # Build the binary as a fully static executable\n  CGO_ENABLED=0 go build -ldflags=\"-s -w\" -o agent-deck ./cmd/agent-deck\n\n  # Install to output directory\n  mkdir -p $out/bin\n  cp agent-deck $out/bin/\n",
+        "command": "  # Use cache directory for cloning (with fallback to /tmp)\n  CACHE_DIR=\"${FLOX_ENV_CACHE:-/tmp}/agent-deck-build\"\n\n  # Clone the repository if not already present\n  if [ ! -d \"$CACHE_DIR\" ]; then\n    git clone https://github.com/asheshgoplani/agent-deck.git \"$CACHE_DIR\"\n  fi\n\n  cd \"$CACHE_DIR\"\n\n  # Fetch latest changes\n  git fetch --tags --force\n  git pull origin main || true\n  git checkout v0.28.3\n\n  # Build the binary as a fully static executable\n  CGO_ENABLED=0 go build -ldflags=\"-s -w\" -o agent-deck ./cmd/agent-deck\n\n  # Install to output directory\n  mkdir -p $out/bin\n  cp agent-deck $out/bin/\n",
         "runtime-packages": [
           "go",
           "tmux",

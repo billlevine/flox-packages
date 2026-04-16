@@ -95,7 +95,7 @@ command = """
   # Fetch latest changes
   git fetch --tags --force
   git pull origin main || true
-  # git checkout v0.28.3
+  git checkout v0.28.3
 
   # Build the binary as a fully static executable
   CGO_ENABLED=0 go build -ldflags="-s -w" -o agent-deck ./cmd/agent-deck
