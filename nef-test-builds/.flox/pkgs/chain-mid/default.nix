@@ -1,9 +1,8 @@
 { runCommand, bash, coreutils, gnused, catalogs }:
 let
   pname = "chain-mid";
-  version = "2";
+  version = "3";
   dependencies = [
-    catalogs.bill-levine.chain-leaf
     catalogs.bill-levine.pair-x
   ];
 in
