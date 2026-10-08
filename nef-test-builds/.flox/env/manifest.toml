@@ -1,5 +1,5 @@
 # Synthetic dependency-shape builds live in ../pkgs/.
-schema-version = "1.18.0"
+schema-version = "1.14.0"
 
 [install]
 
