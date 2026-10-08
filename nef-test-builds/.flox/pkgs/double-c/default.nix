@@ -3,7 +3,7 @@ let
   pname = "double-c";
   version = "1";
   dependencies = [
-    catalogs.billlevine.double-leaf
+    catalogs.bill-levine.double-leaf
   ];
 in
 runCommand "${pname}-${version}" {

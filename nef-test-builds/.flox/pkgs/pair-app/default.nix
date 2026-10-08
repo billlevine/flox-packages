@@ -3,8 +3,8 @@ let
   pname = "pair-app";
   version = "1";
   dependencies = [
-    catalogs.billlevine.pair-x
-    catalogs.billlevine.pair-y
+    catalogs.bill-levine.pair-x
+    catalogs.bill-levine.pair-y
   ];
 in
 runCommand "${pname}-${version}" {

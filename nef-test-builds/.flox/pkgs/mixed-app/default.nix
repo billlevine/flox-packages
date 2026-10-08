@@ -3,7 +3,7 @@ let
   pname = "mixed-app";
   version = "1";
   dependencies = [
-    catalogs.billlevine.mixed-leaf
+    catalogs.bill-levine.mixed-leaf
   ];
 in
 runCommand "${pname}-${version}" {

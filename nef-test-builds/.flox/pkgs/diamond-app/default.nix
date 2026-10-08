@@ -3,8 +3,8 @@ let
   pname = "diamond-app";
   version = "1";
   dependencies = [
-    catalogs.billlevine.diamond-left
-    catalogs.billlevine.diamond-right
+    catalogs.bill-levine.diamond-left
+    catalogs.bill-levine.diamond-right
   ];
 in
 runCommand "${pname}-${version}" {

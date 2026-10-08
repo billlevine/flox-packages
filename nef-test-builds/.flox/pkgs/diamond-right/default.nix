@@ -3,7 +3,7 @@ let
   pname = "diamond-right";
   version = "1";
   dependencies = [
-    catalogs.billlevine.diamond-leaf
+    catalogs.bill-levine.diamond-leaf
   ];
 in
 runCommand "${pname}-${version}" {

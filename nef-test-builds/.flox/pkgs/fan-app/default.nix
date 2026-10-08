@@ -3,9 +3,9 @@ let
   pname = "fan-app";
   version = "1";
   dependencies = [
-    catalogs.billlevine.fan-a
-    catalogs.billlevine.fan-b
-    catalogs.billlevine.fan-c
+    catalogs.bill-levine.fan-a
+    catalogs.bill-levine.fan-b
+    catalogs.bill-levine.fan-c
   ];
 in
 runCommand "${pname}-${version}" {

@@ -3,8 +3,8 @@ let
   pname = "double-mid";
   version = "1";
   dependencies = [
-    catalogs.billlevine.double-c
-    catalogs.billlevine.double-d
+    catalogs.bill-levine.double-c
+    catalogs.bill-levine.double-d
   ];
 in
 runCommand "${pname}-${version}" {

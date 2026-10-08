@@ -3,7 +3,7 @@ let
   pname = "deep-5";
   version = "1";
   dependencies = [
-    catalogs.billlevine.deep-4
+    catalogs.bill-levine.deep-4
   ];
 in
 runCommand "${pname}-${version}" {

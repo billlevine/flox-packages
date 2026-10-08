@@ -3,7 +3,7 @@ let
   pname = "fan-b";
   version = "1";
   dependencies = [
-    catalogs.billlevine.fan-leaf
+    catalogs.bill-levine.fan-leaf
   ];
 in
 runCommand "${pname}-${version}" {

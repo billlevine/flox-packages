@@ -3,8 +3,8 @@ let
   pname = "double-app";
   version = "1";
   dependencies = [
-    catalogs.billlevine.double-a
-    catalogs.billlevine.double-b
+    catalogs.bill-levine.double-a
+    catalogs.bill-levine.double-b
   ];
 in
 runCommand "${pname}-${version}" {

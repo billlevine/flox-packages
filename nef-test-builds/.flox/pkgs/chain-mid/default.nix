@@ -3,7 +3,7 @@ let
   pname = "chain-mid";
   version = "1";
   dependencies = [
-    catalogs.billlevine.chain-leaf
+    catalogs.bill-levine.chain-leaf
   ];
 in
 runCommand "${pname}-${version}" {
