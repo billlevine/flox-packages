@@ -1,7 +1,7 @@
 { runCommand, bash, coreutils }:
 let
   pname = "diamond-leaf";
-  version = "2";
+  version = "3";
 in
 runCommand "${pname}-${version}" {
   inherit pname version;
