@@ -1,9 +1,10 @@
 { runCommand, bash, coreutils, gnused, catalogs }:
 let
   pname = "chain-mid";
-  version = "1";
+  version = "2";
   dependencies = [
     catalogs.bill-levine.chain-leaf
+    catalogs.bill-levine.pair-x
   ];
 in
 runCommand "${pname}-${version}" {
