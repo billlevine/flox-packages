@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# shellcheck source-path=SCRIPTDIR source=common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh"
+
+help() {
+    cat <<'EOF'
+Usage: nef COMMAND [PACKAGE] [VERSION]
+  list                    List packages, versions, and direct dependencies
+  graph [PACKAGE]         Print dependency trees (default: all top packages)
+  bump PACKAGE [VERSION]  Set a version, or increment an integer version
+  publish PACKAGE         Refresh catalog inputs, capture lock, build, publish
+  try PACKAGE [VERSION]   Install and print the recorded tree in a fresh environment
+  show PACKAGE            Show published versions
+  cycle PACKAGE [VERSION] Bump, publish, then try the new version
+  help                    Show this help
+CATALOG defaults to billlevine; retarget expressions before changing it.
+RUN_DIR overrides the new per-command capture directory under seed-runs/.
+Publishing requires committed source available at the repository remote.
+Cycle stops if publishing fails; its version edit remains for inspection.
+EOF
+}
+
+tree() {
+    local pkg=$1 indent=${2:-} dep
+    printf '%s%s v%s\n' "$indent" "$pkg" "${VERSIONS[$pkg]}"
+    for dep in ${DEPS[$pkg]}; do tree "$dep" "$indent  "; done
+}
+bump() {
+    local pkg=$1 new=${2:-} old=${VERSIONS[$1]} file=$ROOT/.flox/pkgs/$1/default.nix
+    if [[ -z $new ]]; then
+        [[ $old =~ ^[0-9]+$ && ${#old} -lt 18 ]] || die 'Specify a version when the current version is not a small integer'
+        new=$((10#$old+1))
+    fi
+    [[ $new =~ ^[a-zA-Z0-9][a-zA-Z0-9.+_-]*$ ]] || die "Invalid version: $new"
+    # Change the assignment only, preserving all other lines and spacing.
+    sed -i.bak -E "s/^([[:space:]]*version = \")[^\"]+(\";.*)$/\1$new\2/" "$file"
+    rm -- "$file.bak"
+    VERSIONS[$pkg]=$new
+    printf '%s: %s -> %s\n' "$pkg" "$old" "$new"
+}
+
+cmd=${1:-help}
+(($# == 0)) || shift
+case $cmd in help|-h|--help) help; exit 0 ;; esac
+scan_packages
+# All packages are needed to find the default graph roots.
+# shellcheck disable=SC2119
+select_order
+case $cmd in
+    list)
+        (($# == 0)) || die 'Usage: nef list'
+        printf 'package\tversion\tdependencies\n'
+        for pkg in "${PACKAGES[@]}"; do printf '%s\t%s\t%s\n' "$pkg" "${VERSIONS[$pkg]}" "${DEPS[$pkg]:--}"; done ;;
+    graph)
+        (($# <= 1)) || die 'Usage: nef graph [PACKAGE]'
+        if (($#)); then require_package "$1"; tree "$1"
+        else for pkg in "${TOPS[@]}"; do tree "$pkg"; done; fi ;;
+    bump|publish|try|show|cycle)
+        (($# >= 1 && $# <= 2)) || die "Usage: nef $cmd PACKAGE [VERSION]"
+        require_package "$1"
+        if [[ $cmd == publish || $cmd == show ]]; then
+            (($# == 1)) || die "Usage: nef $cmd PACKAGE"
+        fi
+        cd -- "$ROOT"
+        case $cmd in
+            bump) bump "$@" ;;
+            show) flox_command show "$CATALOG/$1" ;;
+            publish)
+                ORDER=("$1"); start_run publish; fresh_lock
+                publish_package "$1" "01-$1" ;;
+            try) ORDER=("$1"); start_run try; try_package "$@" ;;
+            cycle)
+                bump "$@"
+                ORDER=("$1"); start_run cycle; fresh_lock
+                publish_package "$1" "01-$1"
+                try_package "$1" "${VERSIONS[$1]}" ;;
+        esac ;;
+    *) die "Unknown command: $cmd (see nef help)" ;;
+esac

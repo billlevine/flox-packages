@@ -242,3 +242,97 @@ flox build chain-app diamond-app fan-app
 
 With dependencies published for every shape, bare `flox build` builds the entire
 project. Consumer builds need their catalog dependencies to exist first.
+
+## Seed and explore
+
+Requires Bash 4+, coreutils (including `tsort`), GNU/BSD `sed`, git, and Flox.
+Both tools discover literal catalog references in `default.nix`, check unknown
+packages and cycles, and print each Flox command before running it. Set `CATALOG`
+(default `billlevine`) to match the expressions; retarget them as described above.
+
+```sh
+./seed.sh --dry-run
+./seed.sh --catalog billlevine --no-install diamond-app
+./seed.sh
+```
+
+`seed.sh` builds and publishes in computed dependency order. Optional package
+arguments include their dependencies; otherwise it visits all packages.
+`--no-install` skips the final integration checks. Otherwise each top package
+(no selected consumer depends on it) is installed into a fresh environment and
+run using `flox activate -- <package>` to print its recorded tree.
+`--run-dir DIR` or `RUN_DIR` selects a new capture directory; the default is
+`seed-runs/<UTC timestamp>-seed-<pid>/`. `--dry-run` writes nothing and executes no
+Flox commands. `--help` lists defaults and options.
+
+The run directory contains:
+
+- `run.tsv`: UTC start, CLI version, git HEAD, dirty state, catalog, planned order.
+- `summary.tsv`: package, step, exit code, elapsed seconds, log path per command.
+- `NN-<package>.<step>.log`: update-catalogs (consumers), build, and publish output.
+- `NN-<package>.catalog.lock`: the lock resolved immediately before each consumer.
+- `initial.*` and `<package>.<step>.*`: project manifest, manifest lock, and
+  environment metadata snapshots, including those available after a failed step.
+- `install-<package>.*`: init/install logs, `.out` with the printed tree,
+  `.manifest.lock` with installed versions, and a retained temporary environment.
+- `original.catalog.lock`, if present: the lock found before the run.
+
+The run starts without a project catalog lock. Before each consumer it runs
+`flox build update-catalogs` and captures the resulting lock. The first failing
+command stops the run with `FAILED: <package> at <step> (see <log>)`.
+An exit trap restores the original lock, or removes generated locks when none
+existed, on success, failure, or an ordinary interrupt. Captures and generated
+catalog locks are git-ignored; review local artifacts before sharing them.
+
+Flox's `update-catalogs` scans **all** project references, even for a restricted
+run. A genuinely empty catalog may therefore fail at the first consumer until
+all referenced packages exist. These scripts preserve that command's behavior;
+they do not stage or hide expressions to work around it. Flox publishing also
+requires clean committed source available at the git remote. The tools do not
+commit or push source changes. Existing build outputs and the Nix store cache
+remain available; freshness here means fresh catalog resolution and installation.
+
+`nef` shares the scan and capture code with `seed.sh`:
+
+| Command | Action |
+| --- | --- |
+| `list` | Package versions and direct catalog dependencies |
+| `graph [package]` | Dependency trees, defaulting to all top packages |
+| `bump package [version]` | Change only the version assignment; omit version to increment an integer |
+| `publish package` | Refresh/capture inputs, build, publish only this package, restore lock |
+| `try package [version]` | Install `CATALOG/package[@version]`, print its tree and retained environment path |
+| `show package` | Show published versions |
+| `cycle package [version]` | Bump, publish, then try the new version |
+| `help` | Usage and defaults |
+
+`publish`, `try`, and `cycle` each create a new directory under `seed-runs/`, or
+use `RUN_DIR`. `@version` is Flox's supported version requirement syntax.
+`cycle` leaves its edit in place if publishing rejects dirty source; commit and
+make the revision available at the remote yourself, then use `publish` and `try`.
+
+Inspect the graph and published versions:
+
+```sh
+./nef list
+./nef graph diamond-app
+./nef show diamond-leaf
+```
+
+Make a staggered diamond (commit and make each changed revision available at
+the remote before its publish command):
+
+```sh
+./nef bump diamond-leaf
+# Commit the leaf change and make its revision available at the remote.
+./nef publish diamond-leaf
+./nef bump diamond-left
+# Commit the branch change and make its revision available at the remote.
+./nef publish diamond-left
+./nef try diamond-app
+```
+
+Inspect a particular published version in an environment you can keep or remove:
+
+```sh
+RUN_DIR=seed-runs/inspect-leaf ./nef try diamond-leaf 2
+```
