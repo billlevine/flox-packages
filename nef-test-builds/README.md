@@ -270,24 +270,29 @@ The run directory contains:
 - `run.tsv`: UTC start, CLI version, git HEAD, dirty state, catalog, planned order.
 - `summary.tsv`: package, step, exit code, elapsed seconds, log path per command.
 - `NN-<package>.<step>.log`: update-catalogs (consumers), build, and publish output.
-- `NN-<package>.catalog.lock`: the lock resolved immediately before each consumer.
+- `NN-<package>.catalog.lock`: the project lock resolved just before each consumer,
+  when `update-catalogs` could resolve every reference at that point (see below).
+- `final.catalog.lock`: the project lock resolved after everything was published.
 - `initial.*` and `<package>.<step>.*`: project manifest, manifest lock, and
   environment metadata snapshots, including those available after a failed step.
 - `install-<package>.*`: init/install logs, `.out` with the printed tree,
   `.manifest.lock` with installed versions, and a retained temporary environment.
 - `original.catalog.lock`, if present: the lock found before the run.
 
-The run starts without a project catalog lock. Before each consumer it runs
-`flox build update-catalogs` and captures the resulting lock. The first failing
-command stops the run with `FAILED: <package> at <step> (see <log>)`.
+The run starts without a project catalog lock. Before each consumer it tries
+`flox build update-catalogs` and keeps the resulting lock as a record. That
+command resolves **all** project references, so on a fresh catalog it fails until
+every referenced package exists. Its failure is logged in `summary.tsv` and does
+not stop the run, and the generated lock is removed before building, so each
+build stays lockless and resolves only its own references. After the last
+publish, one more `update-catalogs` records `final.catalog.lock`.
+The first failing build or publish stops the run with
+`FAILED: <package> at <step> (see <log>)`.
 An exit trap restores the original lock, or removes generated locks when none
 existed, on success, failure, or an ordinary interrupt. Captures and generated
 catalog locks are git-ignored; review local artifacts before sharing them.
 
-Flox's `update-catalogs` scans **all** project references, even for a restricted
-run. A genuinely empty catalog may therefore fail at the first consumer until
-all referenced packages exist. These scripts preserve that command's behavior;
-they do not stage or hide expressions to work around it. Flox publishing also
+Flox publishing also
 requires clean committed source available at the git remote. The tools do not
 commit or push source changes. Existing build outputs and the Nix store cache
 remain available; freshness here means fresh catalog resolution and installation.
