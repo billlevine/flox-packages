@@ -1,0 +1,20 @@
+# Synthetic dependency-shape builds live in ../pkgs/.
+schema-version = "1.18.0"
+
+[install]
+
+[vars]
+
+[hook]
+
+[profile]
+
+[services]
+
+[include]
+
+[build]
+
+[options]
+systems = ["aarch64-darwin", "aarch64-linux", "x86_64-linux"]
+cuda-detection = false
