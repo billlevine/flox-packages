@@ -1,7 +1,7 @@
 { runCommand, bash, coreutils }:
 let
   pname = "deep-1";
-  version = "1";
+  version = "2";
 in
 runCommand "${pname}-${version}" {
   inherit pname version;
