@@ -52,6 +52,8 @@ for pkg in "${ORDER[@]}"; do
     i=$((i+1)); printf -v prefix '%02d-%s' "$i" "$pkg"
     publish_package "$pkg" "$prefix"
 done
+# With everything published, one project-wide capture of the resolved lock.
+capture_catalog_lock _project final
 if [[ $install == true ]]; then
     for pkg in "${TOPS[@]}"; do try_package "$pkg"; done
 fi
