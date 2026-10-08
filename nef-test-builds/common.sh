@@ -118,16 +118,27 @@ step() {
     fi
 }
 
+# Best effort: `flox build update-catalogs` resolves every reference in the
+# project, so it fails until all of them are published. The lock it writes is a
+# record only: it is copied into the run directory and removed again, so builds
+# stay lockless and resolve just their own references.
+capture_catalog_lock() {
+    local pkg=$1 prefix=$2 log="$RUN_DIR/$2.update-catalogs.log" started=$SECONDS code=0
+    command_line flox build update-catalogs
+    if [[ $DRY_RUN == true ]]; then return; fi
+    flox build update-catalogs > "$log" 2>&1 || code=$?
+    printf '%s\t%s\t%d\t%d\t%s\n' "$pkg" update-catalogs "$code" "$((SECONDS-started))" "$log" >> "$RUN_DIR/summary.tsv"
+    if ((code == 0)) && [[ -f $ROOT/.flox/catalog.lock ]]; then
+        cp -p "$ROOT/.flox/catalog.lock" "$RUN_DIR/$prefix.catalog.lock"
+    else
+        printf 'note: no catalog lock for %s (update-catalogs exit %d; expected until every referenced package is published)\n' "$pkg" "$code" >&2
+    fi
+    rm -f -- "$ROOT/.flox/catalog.lock"
+}
+
 publish_package() {
     local pkg=$1 prefix=$2
-    if [[ -n ${DEPS[$pkg]} ]]; then
-        step "$pkg" update-catalogs "$RUN_DIR/$prefix.update-catalogs.log" build update-catalogs
-        if [[ $DRY_RUN == true ]]; then
-            command_line cp .flox/catalog.lock "$RUN_DIR/$prefix.catalog.lock"
-        elif ! cp .flox/catalog.lock "$RUN_DIR/$prefix.catalog.lock"; then
-            die "FAILED: $pkg at capture-catalog-lock (see $RUN_DIR/$prefix.update-catalogs.log)"
-        fi
-    fi
+    [[ -z ${DEPS[$pkg]} ]] || capture_catalog_lock "$pkg" "$prefix"
     step "$pkg" build "$RUN_DIR/$prefix.build.log" build "$pkg"
     step "$pkg" publish "$RUN_DIR/$prefix.publish.log" publish -o "$CATALOG" "$pkg"
 }
